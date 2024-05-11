@@ -72,6 +72,12 @@ sf:
 cc: c=c:c
 cc: sf
 
+# Removes all installed files
+uninstall: down
+	@rm -rf src var vendor bin config || true
+	@rm -f .env composer.json composer.lock LICENSE symfony.lock public/index.php || true
+	@git restore .gitignore
+
 ## Gitflow
 # Get current version number
 fsv:

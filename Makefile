@@ -6,6 +6,10 @@ PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP) bin/console
 
+GREEN	= \033[0;32m
+NC		= \033[0m
+RED		= \033[0;31m
+
 .DEFAULT_GOAL = help
 .PHONY        : help build up start down logs sh composer vendor sf cc test
 
@@ -23,11 +27,21 @@ up:
 	@$(DOCKER_COMP) up --detach
 
 # Build and start the containers
-start: build up
+start: checkProxy build up
 
 # Stop the docker hub
 down:
 	@$(DOCKER_COMP) down --remove-orphans
+
+# Check if proxy is up
+checkProxy:
+	@if lsof -Pi :8080 -sTCP:LISTEN -t >/dev/null ; then\
+		echo "${GREEN}Proxy is up, all good${NC}";\
+		exit 0;\
+	else\
+		echo "${RED}Proxy is down, please start it${NC}";\
+		exit 2;\
+	fi
 
 # Show live logs
 logs:
@@ -60,6 +74,14 @@ composer:
 vendor:
 vendor: c=install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction
 vendor: composer
+
+# Check for outdated composer dependencies
+composerCheckForUpdates: c=outdated
+composerCheckForUpdates: composer
+
+# Update composer dependencies
+updateDependencies: c=update
+updateDependencies: composer
 
 ## Symfony
 # List all Symfony commands or pass the parameter "c=" to run a given command,

@@ -100,6 +100,16 @@ uninstall: down
 	@rm -f .env composer.json composer.lock LICENSE symfony.lock public/index.php || true
 	@git restore .gitignore
 
+## Git
+# Add the template as a remote
+linkTemplate:
+	@git remote add template https://github.com/BearIT72/BearSkeleton.git
+
+# Fetch and merge updates from template
+updateTemplate:
+	@git fetch --all
+	git merge template/main --allow-unrelated-histories
+
 ## Gitflow
 # Get current version number
 fsv:

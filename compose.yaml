@@ -33,6 +33,10 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.project.rule=Host(`project.dev.local`)"
+#      - "traefik.http.routers.project.entrypoints=web, websecure"
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###

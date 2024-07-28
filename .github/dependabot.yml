@@ -1,0 +1,14 @@
+# Inspiration: https://medium.com/@ZeroCool001/symfony-stop-checking-for-dependency-updates-7087ea2dd35c
+version: 2
+updates:
+    - package-ecosystem: "composer" # Using Composer for PHP dependencies
+      directory: "/" # The directory where your composer.json file is located
+      schedule:
+          interval: "daily" # Check for updates daily
+      commit-message:
+          prefix: "chore" # Prefix for commit messages
+      open-pull-requests-limit: 10 # Limit pull requests opened by Dependabot
+      groups:
+          symfony:
+              patterns:
+                  - "symfony/*" # Update all Symfony dependencies together
